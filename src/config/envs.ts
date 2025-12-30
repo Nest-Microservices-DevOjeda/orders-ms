@@ -12,6 +12,7 @@ const envsSchema = z.object({
     .refine((val) => val > 0 && val < 65536, {
       message: 'PORT must be between 1 and 65535',
     }),
+  DATABASE_URL: z.string().nonempty('DATABASE_URL is required'),
 });
 
 export const envs = envsSchema.parse(process.env);

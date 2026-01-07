@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { envs, PRODUCT_SERVICE } from 'src/config';
+import { envs, NATS_SERVICE } from 'src/config';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
@@ -9,11 +9,10 @@ import { OrdersService } from './orders.service';
   imports: [
     ClientsModule.register([
       {
-        name: PRODUCT_SERVICE,
-        transport: Transport.TCP,
+        name: NATS_SERVICE,
+        transport: Transport.NATS,
         options: {
-          host: envs.PRODUCTS_SERVICE_HOST,
-          port: envs.PRODUCTS_SERVICE_PORT,
+          servers: envs.NATS_SERVERS,
         },
       },
     ]),

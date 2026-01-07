@@ -1,1 +1,1 @@
-export const PRODUCT_SERVICE = Symbol('PRODUCT_SERVICE');
+export const NATS_SERVICE = Symbol('NATS_SERVICE');

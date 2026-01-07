@@ -2,7 +2,7 @@ import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { ProductForOrderDto } from 'src/common';
-import { PRODUCT_SERVICE } from 'src/config';
+import { NATS_SERVICE } from 'src/config';
 import { PrismaService } from 'src/prisma/prisma.service';
 import {
   ChangeOrderStatusDto,
@@ -14,8 +14,8 @@ import {
 export class OrdersService {
   constructor(
     private readonly prismaService: PrismaService,
-    @Inject(PRODUCT_SERVICE)
-    private readonly productsClient: ClientProxy,
+    @Inject(NATS_SERVICE)
+    private readonly client: ClientProxy,
   ) {}
 
   async create(createOrderDto: CreateOrderDto) {
@@ -163,7 +163,7 @@ export class OrdersService {
     productIds: number[],
   ): Promise<ProductForOrderDto[]> {
     return await firstValueFrom(
-      this.productsClient.send<ProductForOrderDto[]>(
+      this.client.send<ProductForOrderDto[]>(
         { cmd: 'validate_products' },
         { productIds },
       ),

@@ -50,7 +50,7 @@ COPY . .
 EXPOSE 3002
 
 # Hot reload + Prisma migrations
-CMD ["sh", "-c", "npx prisma migrate dev && pnpm start:dev"]
+CMD ["sh", "-c", "pnpm prisma generate && pnpm prisma migrate dev && pnpm start:dev"]
 
 # ---------- Production ----------
 FROM base AS production
